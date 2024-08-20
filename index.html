@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
+    <script src="https://kit.fontawesome.com/aeb75c23e9.js" crossorigin="anonymous"></script>
+    <title>Habit Tracker</title>
+</head>
+<body>
+    <section class="theme-container">
+        <button class="theme" id="theme"></button>
+    </section>
+    <h1>My Habit Tracker</h1>
+    <section class="habit-container">
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-book-open"></i>
+            </button>
+        </div>
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-phone"></i>
+            </button>
+        </div>
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-camera"></i>
+            </button>
+        </div>
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-message"></i>
+            </button>
+        </div>
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-users"></i>
+            </button>
+        </div>
+        <div class="habit">
+            <button class="habit-btn">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+        </div>
+    </section>
+    <section class="new-habit">
+        <button class="new-habit__add">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </section>
+    <div class="modal-container" aria-hidden="true">
+        <div class="modal">
+            <h2>Add a new habit</h2>
+            <input type="text" id="title" placeholder="Enter a habit name">
+            <div class="icons">
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-book-open"></i>
+                </button>
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-phone"></i>
+                </button>
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-message"></i>
+                </button>
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-users"></i>
+                </button>
+                <button class="icon" id="book">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+            <div class="modal-btns">
+                <button id="add">Add Habit</button>
+                <button id="cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

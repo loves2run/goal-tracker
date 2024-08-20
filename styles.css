@@ -1,0 +1,237 @@
+*, *::after, *before {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #e0e7f1;
+    --secondary: #125dc8;
+    --light: #f4f5f5;
+    --danger: #d81616;
+    --shadow: rgba(8, 47, 102, 0.12);
+    --base: 1rem;
+    --large: calc(var(--base)*5);
+    --med: calc(var(--base)*3);
+    --sm: calc(var(--base)*1.5);
+}
+
+:root.dark {
+    --primary: #12223b;
+    --secondary: #627da6;
+    --light: #003074;
+    --danger: #9f0b0b;
+    --shadow: rgba(152, 174, 205, 0.05);
+}
+
+body {
+    font-family: 'Odibee Sans', cursive;
+    background-color: var(--primary);
+    padding: var(--med);
+    display: grid;
+    place-items: center;
+    color: var(--secondary);
+}
+
+.theme-container {
+    padding: var(--sm);
+    display: grid;
+    place-items: center;
+}
+
+.theme {
+    width: 50px;
+    height: 24px;
+    background-color: var(--secondary);
+    border-radius: var(--base);
+    position: relative;
+    cursor: pointer;
+}
+
+.theme::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary);
+    position: absolute;
+    z-index: 3;
+    top: 2px;
+    left: 3px;
+    border-radius: 50%;
+    transition: all 300ms ease-in-out;
+}
+
+.theme::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 2;
+    top: 2px;
+    left: 3px;
+    border-radius: 50%;
+    transition: all 300ms ease-in-out;
+}
+
+.theme.dark::before {
+    transform: translateX(calc(100% + 4px));
+}
+
+.theme.dark::after {
+    transform: translateX(calc(-100% - 4px));
+}
+
+h1 {
+    font-size: var(--med);
+}
+
+.habit-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    padding: var(--sm) var(--med);
+    max-width: 400px;
+    grid-gap: 1rem;
+    
+}
+
+.habit {
+    display: grid;
+    place-items: center;
+}
+
+.habit-btn {
+    width: var(--large);
+    height: var(--large);
+    border-radius: 50%;
+    background-color: var(--primary);
+    border: 6px solid var(--secondary);
+    color: var(--secondary);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+.habit-btn:hover {
+    opacity: .8;
+}
+
+.habit-btn.completed {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+habit-btn i {
+    pointer-events: none;
+    width: var(--large);
+    height: var(--large);
+}
+
+.new-habit__add {
+    width: var(--large);
+    height: var(--large);
+    border-radius: 50%;
+    background-color: var(--secondary);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    transition: all 300ms ease-in-out;
+}
+
+.modal-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal {
+    border: 3px solid var(--secondary);
+    padding: var(--med);
+    background-color: var(--primary);
+    box-shadow: 1px 4px 30px 10px var(--shadow);
+    transform: translateY(30%);
+    transition: all 300ms ease-in;
+}
+
+.modal-container.active .modal {
+    transform: translateY(0);
+}
+
+.modal h2 {
+    text-align: center;
+    margin-bottom: var(--base);
+}
+
+#title {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background-color: var(--light);
+    padding: 0.5rem;
+}
+
+#title:focus {
+    outline: 2px solid var(--secondary);
+}
+
+.icons {
+    display: grid;
+    place-items: center;
+    padding: var(--sm);
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    grid-gap: 1rem;
+}
+
+.icon {
+    width: var(--med);
+    height: var(--med);
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--secondary);
+    display: grid;
+    place-items: center;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+.icon.selected {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.modal-btns {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: .5rem;
+}
+
+#add, #cancel {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background-color: var(--light);;
+    padding: .5rem;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+#add:hover, #cancel:hover {
+    color: var(--primary);
+    background-color: var(--secondary);;
+}
