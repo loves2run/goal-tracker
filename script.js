@@ -2,6 +2,7 @@
 const habits = document.querySelectorAll('.habit-btn');
 const themeBtn = document.querySelector('#theme');
 const modalContainer = document.querySelector('.modal-container');
+const habitContainer = document.querySelector('.habit-container');
 const createHabitBtn = document.querySelector('.new-habit__add');
 const newHabitTitle = document.querySelector('#title');
 const icons = document.querySelectorAll('.icon');
@@ -16,6 +17,32 @@ const storage = {
     },
     checkTheme(){
         return localStorage.getItem('habitsapp.theme');
+    },
+    saveHabit(object) {
+        const currentHabits = storage.getHabits();
+        if (currentHabits === null || currentHabits === '') {
+            localStorage.setItem('habitsapp.habits', JSON.stringify(object));
+        } else {
+            currentHabits.push(object);
+            localStorage.setItem('habitsapp.habits', JSON.stringify(currentHabits));
+        }
+    },
+    getHabits() {
+        let currentHabits;
+        if(localStorage.getItem('habitsapp.habits') === null) {
+            currentHabits = [];
+        } else {
+            currentHabits = JSON.parse(localStorage.getItem('habitsapp.habits'));
+        }
+        return currentHabits;
+    },
+    habitStatus(id){
+        const currentHabits = storage.getHabits();
+        currentHabits.forEach(habit => {
+            if(habit.id !== Number(id)) return;
+            habits.completed === true ? habit.completed = false : habit.completed = true;
+        })
+        localStorage.setItem('habitsapp.habits', JSON.stringify(currentHabits));
     }
 }   
 
@@ -44,6 +71,26 @@ const ui = {
         icons.forEach(icon => {
             icon.classList.remove('selected');
         })
+    },
+    addNewHabit(title, icon, id, completed){
+        const habitDiv = document.createElement('div');
+        habitDiv.classList.add('habit');
+        habitDiv.innerHTML= `
+            <button class="habit-btn ${completed === true ? 'completed' : ''}" data-id="${id}" data-title="${title}">
+                <i height="48" width="48">${icon}</i>
+            </button>
+            `;
+        habitContainer.appendChild(habitDiv);
+    },
+    refreshHabits(){
+        const uiHabits = document.querySelectorAll('.habit');
+        uiHabits.forEach(habit => habit.remove());
+        const currentHabits = storage.getHabits();
+
+        currentHabits.forEach(habit => {
+            ui.addNewHabit(habit.title, habit.icon, habit.id, habit.completed);
+        });
+        console.table(currentHabits);
     }
 }
 
@@ -54,6 +101,9 @@ window.addEventListener('DOMContentLoaded', () => {
     //load theme
     const theme = storage.checkTheme();
     if (theme === 'dark') ui.theme();
+
+    //update UI
+    ui.refreshHabits();
 })
 
 
@@ -84,9 +134,40 @@ icons.forEach(icon => {
     })
 })
 
-//DELETE... EVENTUALLY
-habits.forEach(habit => {
-    habit.addEventListener('click', () => {
-        habit.classList.toggle('completed');
-    })
+//EVENT : Add new habit button
+addBtn.addEventListener('click', ()=> {
+    const habitTitle = newHabitTitle.value;
+    let habitIcon;
+
+    //check which icon is selected
+    icons.forEach(icon => {
+        if(icon.classList.contains('selected')) {
+            habitIcon = icon.innerHTML; //capture selected icon's HTML
+        };
+    });
+
+
+    const habitID = Math.random(); //generate a unique ID for the habit
+    ui.addNewHabit(habitTitle, habitIcon, habitID);
+    ui.closeModal(); // close modal after adding habit
+    const habit = {
+        title: habitTitle,
+        icon: habitIcon,
+        id: habitID,
+        completed: false,
+    };
+    storage.saveHabit(habit);
 })
+
+//EVENT : complete habit
+habitContainer.addEventListener('click', e => {
+    if(!e.target.classList.contains('habit-btn')) return;
+    e.target.classList.toggle('completed');
+    storage.habitStatus(e.target.dataset.id);
+})
+
+// habits.forEach(habit => {
+//     habit.addEventListener('click', () => {
+//         habit.classList.toggle('completed');
+//     })
+// })
