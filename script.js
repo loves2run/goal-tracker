@@ -8,6 +8,9 @@ const newHabitTitle = document.querySelector('#title');
 const icons = document.querySelectorAll('.icon');
 const addBtn = document.querySelector('#add');
 const cancelBtn = document.querySelector('#cancel');
+const deleteBtn = document.querySelector('#delete')
+const contextMenu = document.querySelector('.context-menu');
+let habitToBeDeleted;
 
 // FUNCTIONS
 
@@ -43,6 +46,16 @@ const storage = {
             habits.completed === true ? habit.completed = false : habit.completed = true;
         })
         localStorage.setItem('habitsapp.habits', JSON.stringify(currentHabits));
+    },
+    deleteHabit(id){
+        const currentHabits = storage.getHabits();
+
+        currentHabits.forEach((habit, index) => {
+            if(habit.id === Number(id)){
+                currentHabits.splice(index, 1);
+            }
+            localStorage.setItem('habitsapp.habits', JSON.stringify(currentHabits));
+        })
     }
 }   
 
@@ -90,7 +103,11 @@ const ui = {
         currentHabits.forEach(habit => {
             ui.addNewHabit(habit.title, habit.icon, habit.id, habit.completed);
         });
-        console.table(currentHabits);
+    },
+    deleteHabit(id) {
+        const habitToDelete = document.querySelector(`[data-id="${id}"]`);
+        habitToDelete.remove();
+        ui.refreshHabits();
     }
 }
 
@@ -166,8 +183,31 @@ habitContainer.addEventListener('click', e => {
     storage.habitStatus(e.target.dataset.id);
 })
 
-// habits.forEach(habit => {
-//     habit.addEventListener('click', () => {
-//         habit.classList.toggle('completed');
-//     })
-// })
+//EVENT : context menu
+habitContainer.addEventListener('contextmenu', e => {
+    if(!e.target.classList.contains('habit-btn')) return;
+    e.preventDefault();
+    habitToBeDeleted = e.target.dataset.id;
+    const {clientX: mouseX, clientY: mouseY} = e;
+    contextMenu.style.top = `${mouseY}px`;
+    contextMenu.style.left = `${mouseX}px`;
+    const contextTitle = document.querySelector('#habit-title');
+    contextTitle.textContent = e.target.dataset.title;
+    contextMenu.classList.add('active');
+})
+
+//EVENT : delete habit btn
+deleteBtn.addEventListener('click', () => {
+    storage.deleteHabit(habitToBeDeleted);
+    ui.deleteHabit(habitToBeDeleted);
+    contextMenu.classList.remove('active');
+})
+
+// This function hides the context menu in event user right-clicks on the
+// habit, but decides not to delete it
+window.addEventListener('click', e => {
+    if(contextMenu.classList.contains('active')){
+      if(e.target.closest('.context-menu')) return; 
+      contextMenu.classList.remove('active');
+    };
+  });

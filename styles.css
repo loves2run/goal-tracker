@@ -235,3 +235,39 @@ habit-btn i {
     color: var(--primary);
     background-color: var(--secondary);;
 }
+
+.context-menu {
+    position: fixed;
+    z-index: 1000;
+    width: 200px;
+    background-color: var(--primary);
+    padding: var(--sm);
+    box-shadow: 1px 4px 30px 10px var(--shadow);
+    border: 3px solid var(--secondary);
+    display: none;
+}
+
+.context-menu.active {
+    display: grid;
+}
+
+#habitTitle::before {
+    content: 'Title';
+}
+
+#delete {
+    font-size: inherit;
+    font-family: inherit;
+    background-color: var(--primary);
+    color: var(--danger);
+    border: 3px solid var(--danger);
+    padding: .5rem;
+    margin-top: .5rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+#delete:hover, #delete:focus {
+    background-color: var(--danger);
+    color: var(--primary);
+}
